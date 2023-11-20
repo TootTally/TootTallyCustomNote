@@ -48,8 +48,8 @@ namespace TootTallyCustomNote
         {
             // Bind to the TTModules Config for TootTally
             ModuleConfigEnabled = TootTallyCore.Plugin.Instance.Config.Bind("Modules", "Custom Note", true, "Enable Custom Note Module");
-            TootTallySettings.Plugin.Instance.AddModuleToSettingPage(this);
             TootTallyModuleManager.AddModule(this);
+            TootTallySettings.Plugin.Instance.AddModuleToSettingPage(this);
         }
 
         public void LoadModule()
