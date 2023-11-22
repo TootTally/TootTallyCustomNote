@@ -122,7 +122,7 @@ namespace TootTallyCustomNote
                 var directories = Directory.GetDirectories(folderPath).ToList();
                 directories.ForEach(d =>
                 {
-                    if (!d.Contains("TEMPALTE"))
+                    if (!d.Contains("TEMPLATE"))
                         folderNames.Add(Path.GetFileNameWithoutExtension(d));
                 });
             }
