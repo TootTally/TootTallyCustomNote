@@ -68,13 +68,13 @@ namespace TootTallyCustomNote
         public static void OnAllTextureLoadedAfterConfigChange(GameController __instance)
         {
             ApplyCustomTextureToNotes(__instance);
-            _lastNoteName = Plugin.Instance.option.NoteName.Value;
+            _lastNoteName = Plugin.Instance.NoteName.Value;
 
         }
 
         public static bool AreAllTexturesLoaded() => _noteStartOutTexture != null && _noteEndOutTexture != null && _noteStartInTexture != null && _noteEndInTexture != null;
 
-        public static bool ConfigNotesNameChanged() => Plugin.Instance.option.NoteName.Value != _lastNoteName;
+        public static bool ConfigNotesNameChanged() => Plugin.Instance.NoteName.Value != _lastNoteName;
 
         public static IEnumerator<UnityWebRequestAsyncOperation> LoadNoteTexture(string filePath, Action<Texture2D> callback)
         {
@@ -89,12 +89,12 @@ namespace TootTallyCustomNote
 
         public static void ResolvePresets(GameController __instance)
         {
-            if ((!AreAllTexturesLoaded() || __instance == null) && Plugin.Instance.option.NoteName.Value != Plugin.DEFAULT_NOTENAME)
+            if ((!AreAllTexturesLoaded() || __instance == null) && Plugin.Instance.NoteName.Value != Plugin.DEFAULT_NOTENAME)
             {
-                Plugin.LogInfo($"[{Plugin.Instance.option.NoteName.Value}] preset loading...");
-                LoadNoteTexture(__instance, Plugin.Instance.option.NoteName.Value);
+                Plugin.LogInfo($"[{Plugin.Instance.NoteName.Value}] preset loading...");
+                LoadNoteTexture(__instance, Plugin.Instance.NoteName.Value);
             }
-            else if (Plugin.Instance.option.NoteName.Value != Plugin.DEFAULT_NOTENAME)
+            else if (Plugin.Instance.NoteName.Value != Plugin.DEFAULT_NOTENAME)
                 ApplyCustomTextureToNotes(__instance);
             else if (__instance != null)
             {
@@ -134,8 +134,8 @@ namespace TootTallyCustomNote
 
         public static void ApplyColor(GameController __instance)
         {
-            Color c = Plugin.Instance.option.NoteColorStart.Value;
-            Color c2 = Plugin.Instance.option.NoteColorEnd.Value;
+            Color c = Plugin.Instance.NoteColorStart.Value;
+            Color c2 = Plugin.Instance.NoteColorEnd.Value;
             __instance.note_c_start = new float[] { c.r, c.g, c.b };
             __instance.note_c_end = new float[] { c2.r, c2.g, c2.b };
         }
@@ -161,16 +161,16 @@ namespace TootTallyCustomNote
             var startRect = __instance.singlenote.transform.Find("StartPoint").GetComponent<RectTransform>();
             var endRect = __instance.singlenote.transform.Find("EndPoint").GetComponent<RectTransform>();
 
-            startRect.sizeDelta = Plugin.Instance.option.NoteHeadSize.Value * Vector2.one * 40f;
-            endRect.sizeDelta = Plugin.Instance.option.NoteHeadSize.Value * Vector2.one * 17f;
+            startRect.sizeDelta = Plugin.Instance.NoteHeadSize.Value * Vector2.one * 40f;
+            endRect.sizeDelta = Plugin.Instance.NoteHeadSize.Value * Vector2.one * 17f;
             startRect.pivot = endRect.pivot = Vector2.one / 2f;
             startRect.anchoredPosition = Vector2.zero;
 
-            __instance.singlenote.transform.Find("StartPoint/StartPointColor").GetComponent<RectTransform>().sizeDelta = Plugin.Instance.option.NoteHeadSize.Value * Vector2.one * 16f;
-            __instance.singlenote.transform.Find("EndPoint/EndPointColor").GetComponent<RectTransform>().sizeDelta = Plugin.Instance.option.NoteHeadSize.Value * Vector2.one * 10f;
+            __instance.singlenote.transform.Find("StartPoint/StartPointColor").GetComponent<RectTransform>().sizeDelta = Plugin.Instance.NoteHeadSize.Value * Vector2.one * 16f;
+            __instance.singlenote.transform.Find("EndPoint/EndPointColor").GetComponent<RectTransform>().sizeDelta = Plugin.Instance.NoteHeadSize.Value * Vector2.one * 10f;
 
-            __instance.singlenote.transform.Find("Line").GetComponent<LineRenderer>().widthMultiplier = Plugin.Instance.option.NoteBodySize.Value * 7;
-            __instance.singlenote.transform.Find("OutlineLine").GetComponent<LineRenderer>().widthMultiplier = Plugin.Instance.option.NoteBodySize.Value * 12;
+            __instance.singlenote.transform.Find("Line").GetComponent<LineRenderer>().widthMultiplier = Plugin.Instance.NoteBodySize.Value * 7;
+            __instance.singlenote.transform.Find("OutlineLine").GetComponent<LineRenderer>().widthMultiplier = Plugin.Instance.NoteBodySize.Value * 12;
         }
 
         //The fact I have to do that is bullshit
