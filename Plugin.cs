@@ -5,6 +5,7 @@ using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TootTallyCore.Utils.Helpers;
 using TootTallyCore.Utils.TootTallyModules;
 using TootTallySettings;
 using UnityEngine;
@@ -64,7 +65,9 @@ namespace TootTallyCustomNote
                 NoteColorStart = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteColorStart), Color.white);
                 NoteColorEnd = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteColorEnd), Color.black);
 
-            TryMigrateFolder("CustomNotes");
+            string sourceFolderPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Info.Location), "CustomNotes");
+            string targetFolderPath = Path.Combine(Paths.BepInExRootPath, "CustomNotes");
+            FileHelper.TryMigrateFolder(sourceFolderPath, targetFolderPath, true);
 
             settingPage = TootTallySettingsManager.AddNewPage("Custom Note", "Custom Note", 40f, new Color(0, 0, 0, 0));
             CreateDropdownFromFolder(NOTES_FOLDER_PATH, NoteName, DEFAULT_NOTENAME);
@@ -91,23 +94,6 @@ namespace TootTallyCustomNote
             _harmony.UnpatchSelf();
             settingPage.Remove();
             LogInfo($"Module unloaded!");
-        }
-
-        public void TryMigrateFolder(string folderName)
-        {
-            string targetFolderPath = Path.Combine(Paths.BepInExRootPath, folderName);
-            if (!Directory.Exists(targetFolderPath))
-            {
-                string sourceFolderPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Info.Location), folderName);
-                LogInfo($"{folderName} folder not found. Attempting to move folder from " + sourceFolderPath + " to " + targetFolderPath);
-                if (Directory.Exists(sourceFolderPath))
-                    Directory.Move(sourceFolderPath, targetFolderPath);
-                else
-                {
-                    LogError($"Source {folderName} Folder Not Found. Cannot Create {folderName} Folder. Download the module again to fix the issue.");
-                    return;
-                }
-            }
         }
 
         public void CreateDropdownFromFolder(string folderName, ConfigEntry<string> config, string defaultValue)
