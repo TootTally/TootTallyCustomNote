@@ -58,12 +58,12 @@ namespace TootTallyCustomNote
             string configPath = Path.Combine(Paths.BepInExRootPath, "config/");
             ConfigFile config = new ConfigFile(configPath + CONFIG_NAME, true) { SaveOnConfigSet = true };
             NoteName = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteName), DEFAULT_NOTENAME);
-                NoteHeadSize = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteHeadSize), 1f, "Size of the start and end note circles");
-                NoteBodySize = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteBodySize), 1f, "Size of the note line");
+            NoteHeadSize = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteHeadSize), 1f, "Size of the start and end note circles");
+            NoteBodySize = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteBodySize), 1f, "Size of the note line");
             RandomNoteColor = config.Bind(NOTE_CONFIG_FIELD, nameof(RandomNoteColor), false, "Randomize all the colors of the notes");
             OverwriteNoteColor = config.Bind(NOTE_CONFIG_FIELD, nameof(OverwriteNoteColor), false, "Make the note color consistent");
-                NoteColorStart = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteColorStart), Color.white);
-                NoteColorEnd = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteColorEnd), Color.black);
+            NoteColorStart = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteColorStart), Color.white);
+            NoteColorEnd = config.Bind(NOTE_CONFIG_FIELD, nameof(NoteColorEnd), Color.black);
 
             string sourceFolderPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Info.Location), "CustomNotes");
             string targetFolderPath = Path.Combine(Paths.BepInExRootPath, "CustomNotes");
@@ -83,6 +83,9 @@ namespace TootTallyCustomNote
 
             settingPage.AddToggle("RandomNoteColor", RandomNoteColor);
             settingPage.AddToggle("OverwriteNoteColor", OverwriteNoteColor, OnToggleValueChange);
+
+            TootTallySettings.Plugin.TryAddThunderstoreIconToPageButton(Instance.Info.Location, Name, settingPage);
+
             if (OverwriteNoteColor.Value) OnToggleValueChange(true);
 
             _harmony.PatchAll(typeof(CustomNotePatches));
@@ -175,12 +178,12 @@ namespace TootTallyCustomNote
             }
         }
 
-            public ConfigEntry<string> NoteName { get; set; }
-            public ConfigEntry<float> NoteHeadSize { get; set; }
-            public ConfigEntry<float> NoteBodySize { get; set; }
-            public ConfigEntry<bool> RandomNoteColor { get; set; }
-            public ConfigEntry<bool> OverwriteNoteColor { get; set; }
-            public ConfigEntry<Color> NoteColorStart { get; set; }
-            public ConfigEntry<Color> NoteColorEnd { get; set; }
+        public ConfigEntry<string> NoteName { get; set; }
+        public ConfigEntry<float> NoteHeadSize { get; set; }
+        public ConfigEntry<float> NoteBodySize { get; set; }
+        public ConfigEntry<bool> RandomNoteColor { get; set; }
+        public ConfigEntry<bool> OverwriteNoteColor { get; set; }
+        public ConfigEntry<Color> NoteColorStart { get; set; }
+        public ConfigEntry<Color> NoteColorEnd { get; set; }
     }
 }
